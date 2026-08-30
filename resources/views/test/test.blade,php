@@ -1,0 +1,808 @@
+@extends('layouts.FontEndApps')
+@section('content')
+    <style>
+        marquee {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ff0000;
+            font-family: sans-serif;
+        }
+    </style>
+    <!-- slider -->
+
+    <div class="slider">
+        <ul class="slides">
+            @foreach ($gallary as $gallary)
+                <li>
+                    <img src="{{ asset($gallary->image) }}" alt="">
+                    <div class="caption slider-content center-align ">
+                        <div class="container">
+                            <h2 style="margin-top:50px;">{{ $gallary->name }}</h2>
+                            <h4>{{ $gallary->title }}</h4>
+                            {{-- <a href="{{ route('completed.apartments') }}" class="button-default">Get Now</a> --}}
+                        </div>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+    <!-- end slider -->
+    <marquee style="border: 1px solid black; background: #eee5e5;">
+        @foreach ($NewsEvent as $news)
+            ** {{ $news->title }} **
+        @endforeach
+    </marquee>
+
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col s6">
+                    <div class="testimonial">
+                        <br>
+                        <h3 style="color:#ff0000;font-weight:600;">Our Concern</h3>
+                        <div id="owl-testimonial">
+                            @foreach ($Concerns as $concern)
+                                <div class="item">
+                                    <a href="{{ route('concern.details', ['id' => $concern->id]) }}">
+                                        <img src="{{ asset($concern->logo) }}" style="border-radius: 0px;;" alt="">
+                                        <p>{{ $concern->title }}</p>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="">
+                        <br>
+                        <h3 style="text-align:center;text-transform:capitalize;font-size: 22px;color:#ff0000;font-weight:600;">What makes us best in the real estate</h3>
+                        <ul style="margin-left: 20px;">
+                            @php
+                                $i = 1;
+                            @endphp
+                            @foreach ($WhatMakesUsBest as $what_makes_us_best)
+                                <li style="color:blue;">{{ $i++ }}. {{ $what_makes_us_best->what_makes_us_best }} </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end testimonial -->
+    <br>
+    <div class="">
+        <div class="container">
+            <div class="testimonial">
+                <div class="row">
+                    <div class="col s6">
+                        <h4 style="color:#25D366;font-weight:600;">Our Vision</h4>
+                        <div class="content" style="color:black;">
+                            Handover aristocratic apartment before committed time.
+                        </div>
+                    </div>
+
+                    <div class="col s6">
+                        <h4 style="color:#CE9F00;font-weight:600;">Our Mission</h4>
+                        <div class="content">
+                            Aristocratic apartment's dream became reality through commitments knowledge, sincerity and
+                            integrity.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="">
+        <div class="container">
+            <div class="testimonial">
+                <div class="row">
+                    @foreach ($VideoLink as $VideoLinks)
+                        <div class="col s12 m6" style="margin-bottom:10px;">
+                            <iframe class="youtube" src="https://www.youtube.com/embed/{{ $VideoLinks->video_link }}?playlist={{ $VideoLinks->video_link }}&loop=1&autoplay=1&mute=1">
+                            </iframe>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- new properties -->
+    <div class="section real-estate bg-second">
+        <div class="container">
+            <div class="section-head">
+                <h4>NEW PROPERTIES</h4>
+                <div class="underline"></div>
+                <div class="underline2"></div>
+            </div>
+            <div class="row">
+                @foreach ($ProductService as $ProductService)
+                    @if ($ProductService->progress == 'completed')
+                        <div class="col s12 m6">
+                            <div class="content" style="height: 720px;">
+                                <a href="{{ route('apartments.details', ['id' => $ProductService->id]) }}">
+                                    <!--span class="price">$1700</span-->
+                                    <img src="{{ asset('/') }}/{{ $ProductService->image }}" alt="">
+                                    {{-- <div class="offer-type">
+                                        <span>For Sale</span>
+                                    </div> --}}
+                                    <div class="sub-content">
+                                        <h5>{{ $ProductService->name }}</h5>
+                                        <span><i class="fa fa-map-marker"></i>{{ $ProductService->short_description }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($ProductService->progress == 'ongoing')
+                        <div class="col s12 m6">
+                            <div class="content">
+                                <a href="{{ route('apartments.details', ['id' => $ProductService->id]) }}">
+                                    <!--span class="price">$1700</span-->
+                                    <img src="{{ asset('/') }}/{{ $ProductService->image }}" alt="">
+                                    <div class="offer-type">
+                                        <span>For Sale</span>
+                                    </div>
+                                    <input type="hidden" value="{{ $ProductService->id }}" id="product_service_id">
+                                    <div class="sub-content">
+                                        <h5>{{ $ProductService->name }}</h5>
+                                        <span><i class="fa fa-map-marker"></i> {{ $ProductService->short_description }}</span>
+                                        <br><a href="{{route('book-now')}}" style="margin-top:5px;" id="btn_download_pdf" class="btn btn-secondary">Book Now</a>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- end new properties -->
+
+    <!-- who we are -->
+    <!--div class="section who-we-are">
+                      <div class="container">
+                       <div class="head">
+                        <h4>WHO WE ARE <span>SARINA ALAM TRADING</span></h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus a mollitia, numquam similique porro nam autem rem repudiandae ullam alias.</p>
+                       </div>
+                       <div class="row">
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-support"></i>
+                          <h5>Trusted</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-code"></i>
+                          <h5>Easy to Use</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                       </div>
+                       <div class="row mb">
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-bar-chart"></i>
+                          <h5>Marketing</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-cogs"></i>
+                          <h5>Consulting</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                       </div>
+                      </div>
+                     </div-->
+    <!-- end who we are -->
+
+    <!-- most view -->
+    <!--div class="section real-estate bg-second">
+                      <div class="container">
+                       <div class="section-head">
+                        <h4>MOST POPULAR VIEW</h4>
+                        <div class="underline"></div>
+                        <div class="underline2"></div>
+                       </div>
+                       <div class="row">
+                        <div class="col s6">
+                         <div class="content">
+                          <span class="price">$700</span>
+                          <img src="{{ asset('FontEndUI/') }}/img/real-estate5.jpg" alt="">
+                          <div class="offer-type">
+                           <span>For Rent</span>
+                          </div>
+                          <div class="sub-content">
+                           <a href="#"><h5>Minimalist Home Luxury</h5></a>
+                           <span><i class="fa fa-map-marker"></i> 574 Green Park, New York</span>
+                          </div>
+                         </div>
+                        </div>
+
+                       </div>
+
+                      </div>
+                     </div-->
+    <!-- end moss views -->
+    <!-- loader -->
+    <div id="fakeLoader"></div>
+    <!-- end loader -->
+@endsection
+@section('script')
+<script>
+    $("#btn_download_pdf").on('click', function(e) {
+        e.preventDefault();
+        //alert($('#cost_center_id').val());
+
+        var url = $(this).attr('href') + '?product_service_id=' + $('#product_service_id').val();
+        newwindow = window.open(url, '_blank');
+
+        //window.open(url, '_blank');
+        // newwindow = window.open(url, 'Expense Transaction Reports', 'height=720,width=1280');
+        // if (window.focus) {
+        //     newwindow.focus()
+        // }
+        return false;
+	});
+</script>
+@endsection
+
+
+
+
+ <style>
+        marquee {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ff0000;
+            font-family: sans-serif;
+        }
+    </style>
+    <!-- slider -->
+
+    <div class="slider">
+        <ul class="slides">
+            @foreach ($gallary as $gallary)
+                <li>
+                    <img src="{{ asset($gallary->image) }}" alt="">
+                    <div class="caption slider-content center-align ">
+                        <div class="container">
+                            <h2 style="margin-top:50px;">{{ $gallary->name }}</h2>
+                            <h4>{{ $gallary->title }}</h4>
+                            {{-- <a href="{{ route('completed.apartments') }}" class="button-default">Get Now</a> --}}
+                        </div>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+    <!-- end slider -->
+    <marquee style="border: 1px solid black; background: #eee5e5;">
+        @foreach ($NewsEvent as $news)
+            ** {{ $news->title }} **
+        @endforeach
+    </marquee>
+
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col s6">
+                    <div class="testimonial">
+                        <br>
+                        <h3 style="color:#ff0000;font-weight:600;">Our Concern</h3>
+                        <div id="owl-testimonial">
+                            @foreach ($Concerns as $concern)
+                                <div class="item">
+                                    <a href="{{ route('concern.details', ['id' => $concern->id]) }}">
+                                        <img src="{{ asset($concern->logo) }}" style="border-radius: 0px;;" alt="">
+                                        <p>{{ $concern->title }}</p>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="">
+                        <br>
+                        <h3 style="text-align:center;text-transform:capitalize;font-size: 22px;color:#ff0000;font-weight:600;">What makes us best in the real estate</h3>
+                        <ul style="margin-left: 20px;">
+                            @php
+                                $i = 1;
+                            @endphp
+                            @foreach ($WhatMakesUsBest as $what_makes_us_best)
+                                <li style="color:blue;">{{ $i++ }}. {{ $what_makes_us_best->what_makes_us_best }} </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end testimonial -->
+    <br>
+    <div class="">
+        <div class="container">
+            <div class="testimonial">
+                <div class="row">
+                    <div class="col s6">
+                        <h4 style="color:#25D366;font-weight:600;">Our Vision</h4>
+                        <div class="content" style="color:black;">
+                            Handover aristocratic apartment before committed time.
+                        </div>
+                    </div>
+
+                    <div class="col s6">
+                        <h4 style="color:#CE9F00;font-weight:600;">Our Mission</h4>
+                        <div class="content">
+                            Aristocratic apartment's dream became reality through commitments knowledge, sincerity and
+                            integrity.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="">
+        <div class="container">
+            <div class="testimonial">
+                <div class="row">
+                    @foreach ($VideoLink as $VideoLinks)
+                        <div class="col s12 m6" style="margin-bottom:10px;">
+                            <iframe class="youtube" src="https://www.youtube.com/embed/{{ $VideoLinks->video_link }}?playlist={{ $VideoLinks->video_link }}&loop=1&autoplay=1&mute=1">
+                            </iframe>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- new properties -->
+    <div class="section real-estate bg-second">
+        <div class="container">
+            <div class="section-head">
+                <h4>NEW PROPERTIES</h4>
+                <div class="underline"></div>
+                <div class="underline2"></div>
+            </div>
+            <div class="row">
+                @foreach ($ProductService as $ProductService)
+                    @if ($ProductService->progress == 'completed')
+                        <div class="col s12 m6">
+                            <div class="content" style="height: 720px;">
+                                <a href="{{ route('apartments.details', ['id' => $ProductService->id]) }}">
+                                    <!--span class="price">$1700</span-->
+                                    <img src="{{ asset('/') }}/{{ $ProductService->image }}" alt="">
+                                    {{-- <div class="offer-type">
+                                        <span>For Sale</span>
+                                    </div> --}}
+                                    <div class="sub-content">
+                                        <h5>{{ $ProductService->name }}</h5>
+                                        <span><i class="fa fa-map-marker"></i>{{ $ProductService->short_description }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($ProductService->progress == 'ongoing')
+                        <div class="col s12 m6">
+                            <div class="content">
+                                <a href="{{ route('apartments.details', ['id' => $ProductService->id]) }}">
+                                    <!--span class="price">$1700</span-->
+                                    <img src="{{ asset('/') }}/{{ $ProductService->image }}" alt="">
+                                    <div class="offer-type">
+                                        <span>For Sale</span>
+                                    </div>
+                                    <input type="hidden" value="{{ $ProductService->id }}" id="product_service_id">
+                                    <div class="sub-content">
+                                        <h5>{{ $ProductService->name }}</h5>
+                                        <span><i class="fa fa-map-marker"></i> {{ $ProductService->short_description }}</span>
+                                        <br><a href="{{route('book-now')}}" style="margin-top:5px;" id="btn_download_pdf" class="btn btn-secondary">Book Now</a>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- end new properties -->
+
+    <!-- who we are -->
+    <!--div class="section who-we-are">
+                      <div class="container">
+                       <div class="head">
+                        <h4>WHO WE ARE <span>SARINA ALAM TRADING</span></h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus a mollitia, numquam similique porro nam autem rem repudiandae ullam alias.</p>
+                       </div>
+                       <div class="row">
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-support"></i>
+                          <h5>Trusted</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-code"></i>
+                          <h5>Easy to Use</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                       </div>
+                       <div class="row mb">
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-bar-chart"></i>
+                          <h5>Marketing</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                        <div class="col s6">
+                         <div class="content">
+                          <i class="fa fa-cogs"></i>
+                          <h5>Consulting</h5>
+                          <p>Lorem ipsum dolor sit amet, consectetur</p>
+                         </div>
+                        </div>
+                       </div>
+                      </div>
+                     </div-->
+    <!-- end who we are -->
+
+    <!-- most view -->
+    <!--div class="section real-estate bg-second">
+                      <div class="container">
+                       <div class="section-head">
+                        <h4>MOST POPULAR VIEW</h4>
+                        <div class="underline"></div>
+                        <div class="underline2"></div>
+                       </div>
+                       <div class="row">
+                        <div class="col s6">
+                         <div class="content">
+                          <span class="price">$700</span>
+                          <img src="{{ asset('FontEndUI/') }}/img/real-estate5.jpg" alt="">
+                          <div class="offer-type">
+                           <span>For Rent</span>
+                          </div>
+                          <div class="sub-content">
+                           <a href="#"><h5>Minimalist Home Luxury</h5></a>
+                           <span><i class="fa fa-map-marker"></i> 574 Green Park, New York</span>
+                          </div>
+                         </div>
+                        </div>
+
+                       </div>
+
+                      </div>
+                     </div-->
+    <!-- end moss views -->
+    <!-- loader -->
+    <div id="fakeLoader"></div>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sarina Alam Construction - Real Estate & Construction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    {{-- seo section start --}}
+    <meta name="author" content="@yield('meta_author')">
+    <meta name="title" content="@yield('meta_title')">
+    <meta name="description" content="@yield('meta_description')">
+    <meta name="keywords" content="@yield('meta_keywords')">
+    <meta property="og:title" content="@yield('og_title')" />
+    <meta property="og:description" content="@yield('og_description')" />
+    <meta property="og:site_name" content="@yield('og_site_name')" />
+    <meta property="og:image" content="@yield('og_image')" />
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="500" />
+    {{-- seo section end --}}
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/materialize.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/normalize.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/owl.carousel.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/owl.theme.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/owl.transitions.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/fakeLoader.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ asset('FontEndUI/') }}/css/style.css">
+    <link rel="shortcut icon" href="{{ asset('FontEndUI/') }}/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ asset('sweetalert/sweetalert.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #whatsapp-link {
+            position: fixed;
+            bottom: 10px;
+            right: 15px;
+            background: #25D366;
+            width: 50px;
+            height: 50px;
+            /* padding: 3px; */
+            border-radius: 10px;
+        }
+
+        .card-alert button {
+            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+            border: medium none;
+            color: #fff;
+            font-size: 20px;
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            color: inherit;
+        }
+
+        .card-alert a {
+            color: inherit;
+            font-weight: 500;
+        }
+
+        .card-alert a:hover {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        .side-nav-panel-right a {
+            font-size: 14px;
+            color: white;
+            margin-top: -5px;
+        }
+
+        .youtube {
+            width: 415px;
+            height: 320px;
+        }
+
+        .youtube_2 {
+            width: 945px;
+            height: 450px;
+        }
+
+        .reward {
+            width: 945px;
+            height: 945px;
+        }
+
+        @media (min-width: 320px) and (max-width: 344px) {
+            .side-nav-panel-right {
+                background-color: #fff;
+                height: 90px;
+                margin-top: -60px;
+            }
+        }
+
+        @media (min-width: 320px) and (max-width: 480px) {
+
+            /* body {
+        background-color: lightgreen;
+    } */
+            .side-nav-panel-right {
+                background-color: #fff;
+                height: 90px;
+            }
+
+            .side-nav-panel-right a {
+                color: black;
+
+            }
+
+            .side-nav-left i,
+            .side-nav-right i {
+                color: black;
+                margin-top: -15px;
+            }
+
+            .side-nav-panel-right a span {
+                margin-top: -25px;
+            }
+
+            .youtube {
+                width: 100%;
+                height: 315px;
+            }
+
+            .youtube_2 {
+                width: 100%;
+                height: 315px;
+            }
+
+            .reward {
+                width: 100%;
+                height: 480px;
+            }
+        }
+
+        @media (min-width: 480px) and (max-width: 768px) {
+
+            /* body {
+        background-color: #de3163;
+    } */
+            .side-nav-panel-right {
+                background-color: #fff;
+                height: 90px;
+                width: 100%;
+            }
+
+            .side-nav-panel-right a {
+                color: black;
+            }
+
+            .side-nav-left i,
+            .side-nav-right i {
+                color: black;
+                margin-top: -15px;
+            }
+
+            .side-nav-panel-right a span {
+                margin-top: -25px;
+            }
+
+            .youtube_2 {
+                width: 100%;
+                height: 315px;
+            }
+
+            .reward {
+                width: 100%;
+                height: 480px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- navbar top -->
+    <div class="navbar-top">
+        <div class="side-nav-panel-left">
+            <!-- site brand	 -->
+            <div class="site-brand">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('FontEndUI/') }}/img/Sarina_logo.png" style="margin-top:8px;margin-left:-147px;"
+                                width="40" height="40" alt="">
+                    <h1 style="font-size:18px; color:#000080;margin-top: -60px;margin-left: 52px;">
+                        Sarina Alam Construction
+                    </h1>
+                </a>
+            </div>
+            <!-- end site brand	 -->
+        </div>
+        <div class="triangle-border"></div>
+        <div class="side-nav-panel-left">
+
+        </div>
+        <div class="side-nav-panel-right">
+            <a href="{{ route('sales-open') }}" style="color:#fff;" class="btn btn-secondary salesOpen">Sales Open</a>
+            <a href="tel:+8801844509790" class="waves-effect hotline"><i class="fa fa-phone-square"
+                    aria-hidden="true"></i>
+                +8801844509790</a>
+            <a href="mailto:info@sarinaconstruction.com" class="waves-effect email"><i class="fa fa-envelope"
+                    aria-hidden="true"></i>
+                <span>info@sarinaconstruction.com</span></a>
+            <a href="#" data-activates="slide-out-left" class="side-nav-right"><i class="fa fa-bars"></i></a>
+        </div>
+    </div>
+    <!-- end navbar top -->
+
+    <!-- side nav left-->
+    <div class="side-nav-panel-left">
+        <ul id="slide-out-left" class="side-nav side-nav-panel collapsible">
+            <li class="profil">
+                <img src="{{ asset('FontEndUI/') }}/img/Sarina_logo.png" alt="">
+                <h2>Sarina Alam Construction </h2>
+                <h6>Land & Property Services</h6>
+            </li>
+            <li><a href="{{ route('home') }}"><i class="fa fa-home"></i>Home</a></li>
+            <li>
+                <div class="collapsible-header"><i class="fa fa-th-list"></i>Apartments<span><i
+                            class="fa fa-caret-down"></i></span></div>
+                <div class="collapsible-body">
+                    <ul class="side-nav-panel">
+                        <li><a href="{{ route('ongoing.apartments') }}">Ongoing</a></li>
+                        <li><a href="{{ route('completed.apartments') }}"></a></li>
+                        <li><a href="{{ route('upcomeing.apartments') }}">Upcoming</a></li>
+                        <li><a href="{{ route('consultancy.apartments') }}">Tunky/Consultancy</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="{{ route('completed.duplex') }}"><i class="fa fa-th-large"></i>Duplex Project</a></li>
+            <li><a href="{{ route('completed.lands') }}"><i class="fa fa-th-large"></i>Lands Project</a></li>
+            <li><a href="{{ route('notice') }}"><i class="fa fa-th-large"></i>Notice Board</a></li>
+            <li><a href="{{ route('carrer') }}"><i class="fa fa-th-large"></i>Carrer</a></li>
+            <li><a href="{{ route('pricing') }}"><i class="fa fa-th-large"></i>Pricing</a></li>
+            <li><a href="{{ route('gallery.view') }}"><i class="fa fa-th-large"></i>Our Gallery</a></li>
+            <li><a href="{{ route('our.team') }}"><i class="fa fa-file-o"></i>Our Expert Team</a></li>
+            <li><a href="{{ route('concern') }}"><i class="fa fa-th-large"></i>Our Concern</a></li>
+            <li><a href="{{ route('printing-publication') }}"><i class="fa fa-th-large"></i>Printing &
+                    Publication</a>
+            </li>
+            <li><a href="{{ route('rewards') }}"><i class="fa fa-th-large"></i>Rewards/Land Owner</a></li>
+            <li><a href="{{ route('client-review') }}"><i class="fa fa-th-large"></i>Client Review/Pleasent</a></li>
+            <li><a href="{{ route('news-events') }}"><i class="fa fa-th-large"></i>News & Events</a></li>
+            {{-- <li>
+                <div class="collapsible-header"><i class="fa fa-th-list"></i>Our Concern<span><i
+                            class="fa fa-caret-down"></i></span></div>
+                <div class="collapsible-body">
+                    <ul class="side-nav-panel">
+                        <li><a href="{{ route('concern') }}">Concern</a></li>
+                        <li><a href="{{ route('printing-publication') }}">Printing & Publication</a></li>
+                    </ul>
+                </div>
+            </li> --}}
+            <li><a href="{{ route('about.us') }}"><i class="fa fa-user"></i>About Us</a></li>
+            <li><a href="{{ route('contact.us') }}"><i class="fa fa-envelope-o"></i>Contact Us</a></li>
+        </ul>
+    </div>
+    <!-- end side nav left-->
+    @yield('content')
+    <br><br><br><br>
+    <!-- footer -->
+    <div class="footer" style="background-color: #EBEBEB;color:#000;">
+        <div class="container">
+            <div class="about-us-foot">
+                <h6 style="color: #0050EF; text-size: 100px;">Sarina Alam Construction <i
+                        class='fab fa-whatsapp-square' style='font-size:50px; color: rgb(37, 211, 102);'></i></h6>
+                <p style="font-size: 150%;color: #000;">Corporate Office:
+                    Sarina Ashraf Nibash, Level # 01, House # 12, (Bishwo Shahitto Kendro Road) Mymensingh Lane, Bangla
+                    Motor, Shahbag, Dhaka-1000. Bangladesh
+                </p>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com/Sarinaalamconstruction" target="_blank"><i class="fa fa-facebook"
+                        style="color:#0003bd;"></i></a>
+                <a href="https://www.youtube.com/@SarinaAlamConstruction" target="_blank"><i
+                        class="fa fa-youtube-play" style="color:#f00;"></i></a>
+                <a href="#"><i class="fa fa-twitter" style="color:#0003bd;"></i></a>
+                <a href="#"><i class="fa fa-google"></i></a>
+                <a href="#"><i class="fa fa-linkedin"></i></a>
+            </div>
+            <div class="copyright">
+                <span>© All Right Reserved Sarina Alam Construction </span>
+            </div>
+        </div>
+    </div>
+    <!-- end footer -->
+    <!-- scripts -->
+    <script type="text/javascript" src="{{ asset('sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/jquery.min.js"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/materialize.min.js"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/owl.carousel.min.js"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/jquery.magnific-popup.min.js"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/owl.carousel.min.js"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/fakeLoader.min.js"></script>
+    <script src="{{ asset('FontEndUI/') }}/js/main.js"></script>
+
+    <div id="whatsapp-link">
+        <a href="https://api.whatsapp.com/send/?phone=8801844509790&text&app_absent=0">
+            <i class='fa fa-whatsapp' style='font-size:50px;margin-left:3px;color: #fff;'></i>
+        </a>
+    </div>
+
+    @yield('script')
+
+</body>
+
+</html>
